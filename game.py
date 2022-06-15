@@ -33,9 +33,10 @@ C_RED = (255, 0, 0)
 C_BLACK = (0, 0, 0)
 
 #music
-mixer.init()
-mixer.music.load('music.ogg')
-mixer.music.play()
+#
+# mixer.init()
+#mixer.music.load('music.ogg')
+#mixer.music.play()
 
 #финальный спрайт (Делает Ширяев Андрей)
 class FinalSprite(sprite.Sprite):
@@ -158,6 +159,9 @@ buttons.add(button1)
 display.set_caption("ARCADA")
 window = display.set_mode([win_width, win_height])
 back = transform.scale(image.load(img_file_back).convert(), (win_width, win_height))
+count_keys = font2.render("Количество ключей: "+"0", 1, C_WHITE)
+window.blit(count_keys, (10, 10))
+
 all_sprites = sprite.Group()
 back_start = transform.scale(image.load(img_file_back_start).convert(), (win_width, win_height))
 barriers = sprite.Group()
@@ -198,7 +202,7 @@ all_sprites.add(door)
 
 #основной цикл игры, управление (Делает --)
 run = True
-finished = False
+finished = True
 
 while run:
     for e in event.get():
@@ -221,7 +225,7 @@ while run:
             x,y = e.pos
             if button1.collidepoint(x,y):
                 finished = False
-                button1.kill(   )
+                button1.kill()
                 robin.kill()
                 for key in keys:
                     key.kill()
@@ -246,7 +250,8 @@ while run:
         if sprite.spritecollide(robin, keys, False):
             key.kill() # метод kill убирает спрайт из всех групп, в которых он числится
             count_k+=1
-            count_keys = font2.render("Количество ключей: "+str(count_k), 1, C_BLACK)
+        count_keys = font2.render("Количество ключей: "+str(count_k), 1, C_WHITE)
+            
 
         if (
             robin.rect.x > right_bound and robin.x_speed > 0
@@ -266,6 +271,7 @@ while run:
         window.blit(back, (local_shift, 0 )) 
         if local_shift != 0:
             window.blit(back, (local_shift - win_width, 0 ))
+        window.blit(count_keys,(10, 10))
         all_sprites.draw(window)
         bombs.draw(window)
         if sprite.collide_rect(robin, door):
@@ -279,8 +285,15 @@ while run:
             text = font1.render('GAME OVER', 1, C_RED)
             window.blit(text, (250, 250))
     
-    display.update()
+        display.update()
+    else:
+        #window.blit(back_start, (0, 0))
+        button1 = Button(img_button_start,300,250) 
+        buttons.add(button1)
+        buttons.draw(window)
+        button1.update()
+        count_k = 0
 
     #пауза
     time.delay(20)
-display.update()
+    display.update()
