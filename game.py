@@ -23,6 +23,7 @@ img_wall = 'wall.png'
 img_key='key.png'
 img_button_start='play.png'
 img_file_back_start = "bgmenu.png"
+img_button_stop='stop.png'
 FPS = 60
 
 C_WHITE = (255, 255, 255)
@@ -143,7 +144,7 @@ class Button(sprite.Sprite):
     def __init__(self,player_image,player_x,player_y):
         sprite.Sprite.__init__(self)
 
-        self.image = transform.scale(image.load(player_image),(200,100))
+        self.image = transform.scale(image.load(player_image),(100,100))
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y
@@ -152,9 +153,11 @@ class Button(sprite.Sprite):
 
 #список кнопок
 buttons=sprite.Group()
-button1=Button(img_button_start,300,250)
+button1=Button(img_button_start,350,200)
 buttons.add(button1)
-
+buttons1=sprite.Group()
+button11=Button(img_button_stop,700,500)
+buttons1.add(button11)
 #запуск игры (Делает Лущик Артем)
 display.set_caption("ARCADA")
 window = display.set_mode([win_width, win_height])
@@ -226,6 +229,7 @@ while run:
             if button1.collidepoint(x,y):
                 finished = False
                 button1.kill()
+                button1.kill()
                 robin.kill()
                 for key in keys:
                     key.kill()
@@ -239,9 +243,15 @@ while run:
                 bomb=Enemy(randint(50,500),200,img_file_bomb,60,60)
                 bombs.add(bomb)
                 count_k=0
+
+        if e.type == MOUSEBUTTONDOWN and e.button == 1:
+            x,y = e.pos
+            if button11.collidepoint(x,y):
+                run = False
+
     window.blit(back_start,(0,0))
     buttons.draw(window)
-
+    buttons1.draw(window)
     if not finished:
         all_sprites.update()
         sprite.groupcollide(bombs, all_sprites, True, True)
@@ -250,7 +260,7 @@ while run:
         if sprite.spritecollide(robin, keys, False):
             key.kill() # метод kill убирает спрайт из всех групп, в которых он числится
             count_k+=1
-        count_keys = font2.render("Количество ключей: "+str(count_k), 1, C_WHITE)
+        count_keys = font2.render("Количество монет: "+str(count_k), 1, C_WHITE)
             
 
         if (
@@ -274,6 +284,10 @@ while run:
         window.blit(count_keys,(10, 10))
         all_sprites.draw(window)
         bombs.draw(window)
+        button11 = Button(img_button_stop,700,500) 
+        buttons1.add(button11)
+        buttons1.draw(window)
+        button11.update()
         if sprite.collide_rect(robin, door):
             finished = True
             # window.fill ( c_BLACK ) 
@@ -288,7 +302,7 @@ while run:
         display.update()
     else:
         #window.blit(back_start, (0, 0))
-        button1 = Button(img_button_start,300,250) 
+        button1 = Button(img_button_start,350,200) 
         buttons.add(button1)
         buttons.draw(window)
         button1.update()
