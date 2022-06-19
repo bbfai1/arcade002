@@ -34,10 +34,9 @@ C_RED = (255, 0, 0)
 C_BLACK = (0, 0, 0)
 
 #music
-#
-# mixer.init()
-#mixer.music.load('music.ogg')
-#mixer.music.play()
+mixer.init()
+mixer.music.load('music.ogg')
+mixer.music.play()
 
 #финальный спрайт (Делает Ширяев Андрей)
 class FinalSprite(sprite.Sprite):
