@@ -43,7 +43,7 @@ C_BLACK = (0, 0, 0)
 class FinalSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed):
         sprite.Sprite.__init__ (self)
-        self.image = transform.scale(image.load(player_image), (100, 100)) 
+        self.image = transform.scale(image.load(player_image),(player_x, player_y)) 
         self.speed = player_speed 
         self.rect = self.image.get_rect() 
         self.rect.x = player_x 
@@ -141,10 +141,10 @@ class CoinSprite(sprite.Sprite):
         self.rect.y = player_y
 #Класс кнопок
 class Button(sprite.Sprite):
-    def __init__(self,player_image,player_x,player_y):
+    def __init__(self,player_image,player_x,player_y,width,height):
         sprite.Sprite.__init__(self)
 
-        self.image = transform.scale(image.load(player_image),(100,100))
+        self.image = transform.scale(image.load(player_image),(width,height))
         self.rect = self.image.get_rect()
         self.rect.x = player_x
         self.rect.y = player_y
@@ -153,10 +153,10 @@ class Button(sprite.Sprite):
 
 #список кнопок
 buttons=sprite.Group()
-button1=Button(img_button_start,350,200)
+button1=Button(img_button_start,350,200,100,100)
 buttons.add(button1)
 buttons1=sprite.Group()
-button11=Button(img_button_stop,700,500)
+button11=Button(img_button_stop,750,550,50,50)
 buttons1.add(button11)
 #запуск игры (Делает Лущик Артем)
 display.set_caption("ARCADA")
@@ -172,7 +172,7 @@ enemies = sprite.Group()
 bombs = sprite.Group()
 # список ключей:
 keys = sprite.Group()
-key=FinalSprite(img_key, 500,  130, 0)
+key=FinalSprite(img_key, 500,  130,0 )
 keys.add(key)
 all_sprites.add(key)
 robin = Hero(img_file_hero)
@@ -284,7 +284,7 @@ while run:
         window.blit(count_keys,(10, 10))
         all_sprites.draw(window)
         bombs.draw(window)
-        button11 = Button(img_button_stop,700,500) 
+        button11 = Button(img_button_stop,750,550,50,50) 
         buttons1.add(button11)
         buttons1.draw(window)
         button11.update()
@@ -302,7 +302,7 @@ while run:
         display.update()
     else:
         #window.blit(back_start, (0, 0))
-        button1 = Button(img_button_start,350,200) 
+        button1 = Button(img_button_start,350,200,100,100) 
         buttons.add(button1)
         buttons.draw(window)
         button1.update()
